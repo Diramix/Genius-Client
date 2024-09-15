@@ -144,6 +144,29 @@ Devtools по умолчанию отключены. Чтобы включить
 Яндекс Музыка запускается быстро и плавно.
 </details>
 
+
+### Добавлен Volume Master
+<details>
+    <summary>Подробнее</summary>
+	
+![image](https://github.com/user-attachments/assets/78f842c6-5259-42b6-8b2a-c38ab7ea2314)
+
+Теперь вы можете менять громкость на ALT + колёсико мыши вверх или вниз
+
+**Создатель этого скрипта:**
+
+<div align="center">
+
+[![Avatar](https://github.com/user-attachments/assets/bdf69eba-3e60-4006-9aed-c071afc2c7a2)](https://github.com/Maks1mio)
+
+**[EvT (Maks1mio)](https://github.com/Maks1mio)**
+
+Нажмите чтобы перейти на страницу создателя скрипта
+
+</div>
+
+</details>
+
 ## Настройки
 Настройки можно найти в `%appdata%\YandexMusic\config.json`
 
