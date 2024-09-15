@@ -1,169 +1,134 @@
-# YandexMusicModClient
-[![TotalDownloads](https://img.shields.io/github/downloads/TheKing-OfTime/YandexMusicModClient/total?label=Downloads)](https://github.com/TheKing-OfTime/YandexMusicModClient/releases "Download") [![OS - Windows](https://img.shields.io/badge/OS-Windows-blue?logo=windows&logoColor=white)](https://github.com/TheKing-OfTime/YandexMusicModClient/releases "Download")
+# Genius Client
 
-<p align="left">
-	<a href="https://discord.gg/HGNKDxwHEH">
-      <img height="35.48" alt="Сервер" src="https://github.com/user-attachments/assets/b7c8a272-b48c-411f-aca3-6512086a9a18">
-   </a>
-   <a href="https://github.com/TheKing-OfTime/YandexMusicModClient/">
-      <img width="96" alt="English" src="https://github.com/TheKing-OfTime/YandexMusicModClient/blob/master/assets/En_Badge_Highlighted.png">
-   </a>
-  <a href="https://github.com/TheKing-OfTime/YandexMusicModClient/blob/master/doc/ru/README.md">
-      <img width="96" alt="Русский" src="https://github.com/TheKing-OfTime/YandexMusicModClient/blob/master/assets/Ru_Badge.png">
-   </a>
-</p>
-
-## This is a modification for Yandex Music Desktop application which unmodified version can be downloaded [here](https://music.yandex.com/download/)
-### YandexMusicModClient or its developer is not affiliated with Yandex or any of their companies, staff etc.
+## Это модификация для настольного приложения Яндекс Музыка, не модифицированную версию которого можно загрузить [здесь](https://music.yandex.com/download/)
+### Genius Client или его разработчик не связаны с Яндексом или какой-либо из их компаний, сотрудников и т.д.
 <details>
-   <summary>Message for Yandex Music Staff</summary>
+   <summary>Сообщение для сотрудников Яндекс Музыки</summary>
    
-   Since you found my code usefull and copied some parts from [here](https://github.com/TheKing-OfTime/YandexMusicModClient/commit/5384285a8de1101102fc21f593266807b38a304f#diff-c314348839e9fcfdd871cc449297e9cf3f9631701ff29758014ba11bf9200ba0) (more specifically PLAYER_ACTION event) and added it to vanilla client. You might want to hire me.
-   My work will be much more efficient if I work on the source code in a cozy office rather than with a minified & webpacked version of the code
+   Поскольку вы сочли код TheKingOfTime полезным и скопировали некоторые части [отсюда](https://github.com/TheKing-OfTime/YandexMusicModClient/commit/5384285a8de1101102fc21f593266807b38a304f#diff-c314348839e9fcfdd871cc449297e9cf3f9631701ff29758014ba11bf9200ba0) (более конкретно, событие PLAYER_ACTION) и добавили его в ванильный клиент, возможно, вы захотите нанять его.
+   Его работа будет намного эффективнее, если он буду работать над исходным кодом в уютном бомжарнике, а не с минифицированной и прогнанной через webpack версией кода!
 </details>
 
 
-## Install
+## Установка
 
 > [!WARNING]  
-> ### Installing the modification for an unsuitable client version can lead to unpredictable results.
-> Before installing, make sure that the client version and the version for which the modification was made coincide.
-> This can be checked on the Releases page
+> ### Установка модификации для неподходящей версии клиента может привести к непредсказуемым результатам.
+> Перед установкой убедитесь, что версия клиента и версия, для которой было написана модификация, совпадают.
+> Это можно сделать на странице релиза.
 
-0. Download latest Yandex music client from offical site https://music.yandex.com/download/
-1. Open command line (Win + R -> cmd -> Enter)
-2. Execute this command
+0. Загрузите последнюю версию клиента Яндекс музыки с официального сайта https://music.yandex.com/download/
+1. Откройте командную строку (Win + R -> cmd -> Enter)
+2. Выполните эту команду
    ```bat
-   curl -L https://github.com/TheKing-OfTime/YandexMusicModClient/releases/download/onlyDiscordRPC/app.asar > %localappdata%/Programs/YandexMusic/resources/app.asar
+   curl -L https://github.com/Diramix/Genius-Client/releases/download/Genius-Client-1.0.0/app.asar > %localappdata%/Programs/YandexMusic/resources/app.asar
    ```
-3. Done!
+3. Готово!
 
 > [!NOTE]  
-> Relogin may be required after patch install.
+> После установки модификации может потребоваться повторный вход в аккаунт.
 
 
-## Features
+## Возможности
 
-### Discord Rich Presence
+### Discord Статус
 <details>
-   <summary>Details</summary>
-
-   
-Adds support for Discord Rich Presence
+   <summary>Подробнее</summary>
 
 <details>
-   <summary>Settings</summary>
+   <summary>Настройки</summary>
    
       "discordRPC": {
-			"enable": true or false,                         //Enables or disables disocrd RPC
-			"applicationIDForRPC": "1124055337234858005",    //ID of your custom application for discord RPC
-			"showButtons": true or false,                    //Enables or disables all buttons in discord Status 
-			"overrideDeepLinksExperiment": true or false,    //Enables or disables split web and desktop buttons into one button
-			"showGitHubButton": true or false                //Enables or disables Github button if overrideDeepLinksExperiment set to true
+			"enable": true or false,                         //Включает или отключает disocrd RPC
+			"applicationIDForRPC": "1124055337234858005",    //ID пользовательского приложения вашего для discord RPC
+			"showButtons": true or false,                    //Включает или отключает все кнопки в состоянии discord 
+			"overrideDeepLinksExperiment": true or false,    //Включает или отключает разделение веб-кнопок и кнопок рабочего стола на одну кнопку
+			"showGitHubButton": true or false                //Включает или отключает кнопку Github, если для параметра overrideDeepLinksExperiment установлено значение true
       }
       
 </details>
 
-![image](https://github.com/user-attachments/assets/dd793a12-d67c-4d9e-930a-00c7f7ce47c1)
+   
+Добавляет поддержку отображения текущего трека как статуса в Discord
+![изображение](https://github.com/user-attachments/assets/2816f0af-b5d3-4907-9dd4-d970f0f66593)
 
 </details>
 
-### Taskbar Extensions
+### Кнопки в превью панели задач
 <details>
-   <summary>Details</summary>
+   <summary>Подробнее</summary>
 
    
-Adds support for Taskbar Extensions
+Добавляет поддержку расширений панели задач (Taskbar Extensions)
 
 <details>
-   <summary>Settings</summary>
+   <summary>Настройки</summary>
       
       "taskBarExtensions": {
-			"enable": true or false //Enables or disables Taskbar Extensions
-      }
+			"enable": true or false //Включает или отключает расширения панели задач
+		}
       
 </details>
 
-![image](https://github.com/TheKing-OfTime/YandexMusicModClient/assets/68960526/8c3711a3-4bb7-4601-a291-b5c7eb5f58f0)
+![изображение](https://github.com/user-attachments/assets/9877e5d5-677f-4e0f-8bbe-9294db3f780f)
 
 </details>
 
-### Return dislike button
+### Возврат кнопки дизлайка
 <details>
-   <summary>Details</summary>
+   <summary>Подробнее</summary>
    
-Returns dislike button on main player bar
+Возвращает кнопку дизлайка в плеер на главной.
 
 ![image](https://github.com/user-attachments/assets/22a83331-dfc4-4c7b-92c9-4fdbe2758910)
 
 </details>
 
-### Track quality display
+### Переключатель локализации
 <details>
-   <summary>Details</summary>
+   <summary>Подробнее</summary>
    
-Displayes track quality or codec
+Разблокирует переключатель локализации
 
-<details>
-   <summary>Settings</summary>
-      
-	"playerBarEnhancement": {
-		"showCodecInsteadOfQualityMark": true //Show codec instead of quality mark
-	}
-      
-</details>
-
-![image](https://github.com/user-attachments/assets/da143017-b9ff-4faf-91dc-b9ccc81b1e2f)
-![image](https://github.com/user-attachments/assets/3e5b6fb2-fbd3-4e04-880c-f1e556d8c4ef)
+![изображение](https://github.com/user-attachments/assets/2b4bbeaa-b12c-4987-892d-bacd2111732a)
 
 </details>
 
-### Language Switcher
+### Улучшенная анимация Моей Волны
 <details>
-   <summary>Details</summary>
+   <summary>Подробнее</summary>
    
-Unblockes Language Switcher
-
-![image](https://github.com/user-attachments/assets/0a283eaf-b745-4eeb-9cbe-990a75af76d7)
-
-</details>
-
-### Enhanced Vibe Animation
+Улучшает поведение анимации Моей Волны. Она начинает лучше адаптироваться к музыке. Также позволяет настраивать частоту кадров в секунду при рендеринге анимации.
 <details>
-   <summary>Details</summary>
-   
-Enhances Vibe Animation behavior. It better adapts to music. Also allows custom FPS of the animation rendering.
-<details>
-   <summary>Settings</summary>
+   <summary>Настройки</summary>
       
       "vibeAnimationEnhancement": {
-	    "maxFPS": 25,              	// Max allowed FPS. Defalut 25. Recommended 25 - 144. Don't set this value below 1
-	    "intensityCoefficient": 1, 	// Sensitivity of music analysis. Default 1, Recommended: 0.5 - 2. If set to 0 disables enhancement behavior (almost :D)
-	    "linearDeBoost": 5,		// Separation coefficient of track peaks from the main track. Default 5. Recommended 2 - 8. If 1 disables libear deboost.
-	    "playOnAnyEntity": false,	// If enabled Animation plays even if not My Vibe used as track source.
-	    "disableRendering": false	// Disables rendering of the animation. Use only if you feel significant fps drops. Else try adjust maxFPS value.
+	    "maxFPS": 25,             	// Максимально допустимая частота кадров в секунду. По умолчанию: 25. Рекомендуемое: 25 - 144. Не устанавливайте значание меньше 1
+	    "intensityCoefficient": 1, 	// Чувствительность музыкального анализа. По умолчанию: 1; Рекомендуемое: 0,5 - 2; При значении 0 отключается улучшение анимации (почти :D)
+	    "linearDeBoost": 5,		// Коэффициент выделения пиков в треке от основного трека. По умолчанию: 5. Рекомендуемое: 2 - 8. Если 1, отключает разделение пиков.
+	    "playOnAnyEntity": false,	// Если включено, анимация воспроизводится, даже если источник трека не Моя Волна.
+	    "disableRendering": false	// Полностью отключает анимацию. Используйте только если почувствуете значительное падение кадров в секунду. В противном случае подберите оптимальное значение параметра maxFPS для вашей системы.
       }
       
 </details>
 
-before:
+До:
 
 https://github.com/user-attachments/assets/23a8da4d-3d6a-43c6-a5f5-965e065ed912
 
-after:
+После:
 
 https://github.com/user-attachments/assets/b062a3ee-d05e-4cf3-8e03-b6f8bf66525c
 
-
 </details>
 
-### Devtools & DevPanel
+### Devtools & Панель Разработчика
 <details>
-   <summary>Details</summary>
+   <summary>Подробнее</summary>
    
-Devtools are disabled by default. To enable them you need modify `%appdata%\YandexMusic\config.json`:
+Devtools по умолчанию отключены. Чтобы включить их, вам необходимо изменить `%appdata%\YandexMusic\config.json`:
 
-Change `"enableDevTools": false` to `"enableDevTools": true`
+Измените `"enableDevTools": false` на `"enableDevTools": true`
 
 ![electron_L6SeZLnSAH](https://github.com/TheKing-OfTime/YandexMusicModClient/assets/68960526/ae841087-d910-45e5-a007-3fd869a493e1)
 
@@ -171,46 +136,22 @@ Change `"enableDevTools": false` to `"enableDevTools": true`
 
 </details>
 
-## Settings
-Settings can be found in `%appdata%\YandexMusic\config.json`
+## Настройки
+Настройки можно найти в `%appdata%\YandexMusic\config.json`
 
-In app UI for settings will be soon™ 
+Настройки внутри приложения появятся скоро™ 
 
-## Support
-If you really enjoyed the new experience with this modification, you can support my work on it:
+## Поддержка
+Если вам действительно понравился новый опыт использования Яндекс Музыки с этой модификацией, вы можете поддержать работу TheKingOfTime над ней:
 <p align="left">
    <a href="https://boosty.to/thekingoftime/donate">
-      <img width="200" alt="Support me on Boosty" src="https://github.com/TheKing-OfTime/YandexMusicModClient/blob/master/assets/Support_Banner.png">
+      <img width="300" alt="Поддержите меня на бусти" src="https://github.com/user-attachments/assets/7b341f16-6513-4138-a3c5-b5892b062f63">
    </a>
 </p>
 
-## Sponsors
-Thanks a lot to the sponsors who allow me to actively work on this project.
+~~А ещё мне дайте деняг:~~
 <p align="left">
-   <a href="https://github.com/Lemon4ksan">
-      <img width="50" alt="Lemon4ksan" src="https://avatars.githubusercontent.com/u/122788290?v=4">
-   </a>
-   <a href="https://github.com/SergheyUmca">
-      <img width="50" alt="SergheyUmca" src="https://avatars.githubusercontent.com/u/33039150?v=4">
-   </a>
-   <a href="https://github.com/schwarzalexey">
-      <img width="50" alt="schwarzalexey" src="https://avatars.githubusercontent.com/u/97682066?v=4?v=4">
-   </a>
-   <a href="https://github.com/Diramix">
-      <img width="50" alt="Diramix" src="https://avatars.githubusercontent.com/u/79011730?v=4">
-   </a>
-   <a href="https://github.com/trigger-off">
-      <img width="50" alt="trigger-off" src="https://avatars.githubusercontent.com/u/71810229?v=4">
-   </a>
-   <a href="https://github.com/Baduga">
-      <img width="50" alt="Baduga" src="https://avatars.githubusercontent.com/u/69755854?v=4">
-   </a>
-   <a href="https://github.com/LazyMind">
-      <img width="50" alt="LazyMind" src="https://avatars.githubusercontent.com/u/87148057?v=4">
-   </a>
-   <a href="https://github.com/Schelchki">
-      <img width="50" alt="Schelchki" src="https://avatars.githubusercontent.com/u/162707132?v=4">
+   <a href="https://boosty.to/Diramix">
+      <img width="165" alt="Поддержите меня на бусти" src="https://github.com/user-attachments/assets/97220d0f-21c6-42bd-91ff-bfedbc2e32c8">
    </a>
 </p>
-
-> This list updates manually.
