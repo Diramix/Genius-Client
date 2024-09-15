@@ -25,7 +25,26 @@ const eventsLogger = new Logger_js_1.Logger("Events");
 const isBoolean = (value) => {
   return typeof value === "boolean";
 };
-const handleApplicationEvents = (window) => {
+
+                const handleApplicationEvents = (window) => {
+                    electron_1.session.defaultSession.webRequest.onCompleted({ urls: ['https://api.music.yandex.net/*'] }, (details) => {
+                        const url = details.url;
+                        const regex = /https:\/\/api\.music\.yandex\.net\/get-file-info\?ts=\d+&trackId=(\d+)/;
+
+                        const match = url.match(regex);
+                        if (match && match[1]) {
+                            const trackId = match[1];
+                            const trackInfo = {
+                                url,
+                                trackId,
+                            }
+                            console.log("Track ID found:", trackId);
+                            fetch("http://127.0.0.1:2007/track_info", {
+                                method: "POST",
+                                body: JSON.stringify(trackInfo),
+                            });
+                        }
+                    });
   const updater = (0, updater_js_1.getUpdater)();
   electron_1.ipcMain.on(events_js_1.Events.APPLICATION_RESTART, () => {
     eventsLogger.info("Event received", events_js_1.Events.APPLICATION_RESTART);

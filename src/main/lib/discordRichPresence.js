@@ -121,13 +121,8 @@ async function setActivity(
   }
 
   if (state === "paused") {
-    timeoutId = setTimeout(
-      () => {
-        rpc.clearActivity();
-        timeoutId = undefined;
-      },
-      15 * 60 * 1000,
-    );
+    rpc.clearActivity();
+    return;
   }
 
   let activityObject = {
@@ -135,12 +130,11 @@ async function setActivity(
     details: string2Discord(trackName),
     state: string2Discord(trackArtist),
     largeImageKey: trackAlbumAvatar,
-    largeImageText: string2Discord(trackAlbum),
-    smallImageKey: stateKey,
+    smallImageKey: "null",
     smallImageText: stateText,
     startTimestamp,
     endTimestamp,
-    instance: false,
+    instance: true,
   };
 
   if (
@@ -188,8 +182,6 @@ async function setActivity(
     .then((activity) => silentTypeCheck(activity))
     .catch((e) => {
       discordRichPresenceLogger.error(e);
-      //console.log(e.name);
-      //isReady = false;
     });
 
   return true;
@@ -215,7 +207,7 @@ tryConnect();
 
 const getArtist = (artistsArray) => {
   if (!artistsArray?.[0]?.name) return undefined;
-  let artistsLabel = "by " + artistsArray[0].name;
+  let artistsLabel = artistsArray[0].name;
   artistsArray.shift();
   artistsArray.forEach((artist) => {
     artistsLabel += ", " + artist.name;
@@ -239,7 +231,7 @@ const discordRichPresence = (playingState) => {
   if (title === album) {
     album = undefined;
   } else if (isListeningType) {
-    album = "on " + album;
+    album = album;
   }
 
   let albumArt = undefined;

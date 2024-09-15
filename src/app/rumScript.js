@@ -44,3 +44,284 @@ function initRum({
 
         Ya.Rum.observeDOMNode('2876', heroElement);
 }
+
+                document.addEventListener('DOMContentLoaded', function() {
+                    let isScriptExecuted = false;
+                    let previousCss = '';
+                    let themeChanged = false;
+                    function addHtmlToBody() {
+                        const bodyElement = document.querySelector('body');
+
+                        if (bodyElement && !isScriptExecuted) {
+                            const customHtmlElement = document.createElement('div');
+                            customHtmlElement.className = 'PSBpanel';
+                            customHtmlElement.style = "position: absolute;top: -7px;right: 140px;color: rgb(255 255 255 / 29%);font-family: var(--ym-font-text);font-style: normal;font-weight: 100;letter-spacing: normal;line-height: var(--ym-font-line-height-label-s);z-index: 1;"
+
+                            customHtmlElement.innerHTML = '<p class="PSB">PulseSync</p>';
+
+                            bodyElement.appendChild(customHtmlElement);
+
+                            isScriptExecuted = true;
+                            
+                            clearInterval(timerId);
+                        }
+                    }
+
+                    const timerId = setInterval(addHtmlToBody, 1000);
+                                                              
+                    function logPlayerBarInfo() {
+                        const playerBarTitleElement = document.querySelector('[class*="PlayerBarDesktop_description"] [class*="Meta_title"]');
+                        const linkTitleElement = document.querySelector('[class*="Meta_albumLink"]');
+                        const artistLinkElement = document.querySelector('[class*="PlayerBarDesktop_description"] [class*="Meta_artists"]');
+                        const timecodeElements = document.querySelectorAll('[class*="ChangeTimecode_timecode"]');
+                        const imgElements = document.querySelectorAll('[class*="PlayerBarDesktop_cover"]');
+                        imgElements.forEach(img => {
+                            if (img.src && img.src.includes('/100x100')) {
+                                img.src = img.src.replace('/100x100', '/1000x1000');
+                            }
+                            if (img.srcset && img.srcset.includes('/100x100')) {
+                                img.srcset = img.srcset.replace('/100x100', '/1000x1000');
+                            }
+                            if (img.srcset && img.srcset.includes('/200x200 2x')) {
+                                img.srcset = img.srcset.replace('/200x200 2x', '/1000x1000 2x');
+                            }
+                        });
+                        const titleText = playerBarTitleElement ? playerBarTitleElement.textContent.trim() : '';
+
+                        const artistTextElements = artistLinkElement ? artistLinkElement.querySelectorAll('[class*="Meta_artistCaption"]') : null;
+                        const artistTexts = artistTextElements ? Array.from(artistTextElements).map(element => element.textContent.trim()) : [];
+                        const linkTitle = linkTitleElement ? linkTitleElement.getAttribute('href') : '';
+                        const albumId = linkTitle ? linkTitle.split('=')[1] : '';
+                        let timecodesArray = Array.from(timecodeElements, (element) => element.textContent.trim());
+                        if (timecodesArray.length > 2) {
+                            timecodesArray = timecodesArray.slice(0, 2);
+                        }
+
+                        const ImgTrack = imgElements.length > 0 ? Array.from(imgElements, (element) => element.src) : [];
+                      
+                        return {
+                            playerBarTitle: titleText,
+                            artist: artistTexts.join(', '),
+                            timecodes: timecodesArray,
+                            requestImgTrack: ImgTrack,
+                            linkTitle: albumId
+                        };
+                    }
+
+                    setInterval(() => {
+                        const result = logPlayerBarInfo();
+                        
+                        fetch('http://127.0.0.1:2007/update_data', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(result),
+                        });
+                    }, 1000);
+
+                
+                    function updateTheme() {
+                        fetch('http://127.0.0.1:2007/get_theme')
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.ok) {
+                                    var link = document.getElementById('dynamic-style');
+                    
+                                    if (data.css && data.css !== previousCss) {
+                                        if (!link) {
+                                            link = document.createElement('link');
+                                            link.id = 'dynamic-style';
+                                            link.rel = 'stylesheet';
+                                            link.type = 'text/css';
+                                            document.head.appendChild(link);
+                                        }
+                                        var cssBlob = new Blob([data.css], { type: 'text/css' });
+                                        var cssUrl = URL.createObjectURL(cssBlob);
+                                        link.href = cssUrl;
+                                        previousCss = data.css;
+                                    } 
+                                    if(data.css.trim() === "{}" ) {
+                                        if (link) {
+                                            link.remove();
+                                        }
+                                    }
+                    
+                                    var script = document.getElementById('dynamic-script');
+                                    if (data.script && data.script.trim() !== "") {
+                                        if (!script) {
+                                            var newScript = document.createElement('script');
+                                            newScript.id = 'dynamic-script';
+                                            newScript.type = 'application/javascript';
+                                            newScript.text = data.script;
+                                            document.head.appendChild(newScript);
+                                        } else if (script.text !== data.script) {
+                                            script.text = data.script;
+                                            themeChanged = true;
+                                        }
+                                    } else {
+                                        if (script) {
+                                            themeChanged = true;
+                                        }
+                                    }
+                                    if (themeChanged) {
+                                        setTimeout(() => {
+                                            location.reload();
+                                        }, 100); 
+                                    }
+                                } else {
+                                    console.error('Failed to load theme:', data.error);
+                                }
+                            })
+                            .catch(error => console.error('Error fetching theme:', error));
+                    }
+                    updateTheme();
+            
+                    setInterval(updateTheme, 2000);
+                });
+                const token = localStorage.getItem("oauth"); 
+                fetch('http://127.0.0.1:2007/send_token', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: token,
+                });
+
+                
+let altPressed = false;
+let volumeDisplay;
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Alt') {
+        if (!altPressed) {
+            altPressed = true;
+            executeScript();
+        }
+    }
+});
+
+document.addEventListener('keyup', (event) => {
+    if (event.key === 'Alt') {
+        altPressed = false;
+        if (volumeDisplay) {
+            volumeDisplay.style.transition = 'all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            volumeDisplay.style.transform = 'scale(0)';
+            volumeDisplay.style.opacity = '0';
+            setTimeout(() => {
+                if (volumeDisplay) {
+                    volumeDisplay.remove();
+                    volumeDisplay = null;
+                }
+            }, 300);
+        }
+    }
+});
+
+function executeScript(volumeCon) {
+    const existingVolumeDisplay = document.querySelector('.custom-volume-display');
+    if (!existingVolumeDisplay) {
+        volumeCon.forEach(control => {
+            console.log('Найден элемент:', control);
+            if (control.getAttribute('aria-label') === 'Управление громкостью' && control.getAttribute('max') === '1' && control.getAttribute('step') === '0.01') {
+                console.log('Элемент для управления громкостью найден:', control);
+
+                const volumeDisplay = document.createElement('div');
+                volumeDisplay.style.position = 'fixed';
+                volumeDisplay.className = 'custom-volume-display';
+                volumeDisplay.style.bottom = '0%';
+                volumeDisplay.style.right = '0%';
+                volumeDisplay.style.transform = 'translate(-15%, -15%)';
+                volumeDisplay.style.width = '150px';
+                volumeDisplay.style.height = '150px';
+                volumeDisplay.style.borderRadius = '130px';
+                volumeDisplay.style.background = 'conic-gradient(from 124.01deg at 100% 0%, #66FFCC 0deg, rgba(102, 255, 204, 0.44) 0deg, rgb(204, 204, 204) 360deg, rgb(204, 204, 204) 360deg)';
+                volumeDisplay.style.display = 'flex';
+                volumeDisplay.style.alignItems = 'center';
+                volumeDisplay.style.justifyContent = 'center';
+                volumeDisplay.style.fontSize = '24px';
+                volumeDisplay.style.color = 'white';
+                volumeDisplay.style.opacity = '0';
+                volumeDisplay.style.transition = 'all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                volumeDisplay.style.zIndex = '90000';
+
+                const volumeInnerDisplay = document.createElement('div');
+                volumeInnerDisplay.style.background = 'linear-gradient(180deg, rgb(255 255 255 / 20%) 0%, rgb(14 14 14 / 30%) 100%), #101010';
+                volumeInnerDisplay.style.boxShadow = '0px 4px 4px rgba(0, 0, 0, 0.25)';
+                volumeInnerDisplay.style.height = '85%';
+                volumeInnerDisplay.style.width = '85%';
+                volumeInnerDisplay.style.borderRadius = '125px';
+                volumeInnerDisplay.style.display = 'flex';
+                volumeInnerDisplay.style.alignItems = 'center';
+                volumeInnerDisplay.style.justifyContent = 'center';
+                volumeInnerDisplay.style.fontWeight = '100';
+                volumeInnerDisplay.style.flexDirection = 'column';
+                volumeInnerDisplay.style.paddingTop = '27px';
+
+                const volumePercentage = document.createElement('span');
+                volumePercentage.style.fontSize = '45px';
+
+                const volumeLabel = document.createElement('span');
+                volumeLabel.style.fontSize = 'medium';
+                volumeLabel.style.fontWeight = '600';
+                volumeLabel.textContent = 'volume';
+
+                volumeInnerDisplay.appendChild(volumePercentage);
+                volumeInnerDisplay.appendChild(volumeLabel);
+                volumeDisplay.appendChild(volumeInnerDisplay);
+                document.querySelector('[class*="DefaultLayout_root_applicationPreserveTitleBar"]').appendChild(volumeDisplay);
+
+                document.addEventListener('wheel', (event) => {
+                    if (event.altKey) {
+                        event.preventDefault();
+                        let currentValue = parseFloat(control.value);
+                        const step = parseFloat(0.025);
+                        const max = parseFloat(control.max || 1.001);
+                        const min = parseFloat(control.min || 0.001);
+
+                        if (event.deltaY < 0) {
+                            currentValue = Math.min(currentValue + step, max);
+                        } else {
+                            currentValue = Math.max(currentValue - step, min);
+                        }
+
+                        console.log('Новое значение громкости:', currentValue);
+
+                        control.value = currentValue;
+                        control.style.backgroundSize = `${(currentValue / max) * 100}% 100%`;
+
+                        const inputEvent = new Event('input', { bubbles: true });
+                        control.dispatchEvent(inputEvent);
+
+                        const percentage = Math.round(currentValue * 100);
+                        volumePercentage.textContent = `${percentage}`;
+                        volumeDisplay.style.background = `conic-gradient(from 124.01deg at 50% 50%, var(--ym-logo-color-primary-variant) 0deg, var(--ym-logo-color-primary-variant) ${percentage * 3.6}deg, rgb(56, 56, 56) ${percentage * 3.6}deg, rgba(102, 255, 204, 0) 360deg)`;
+                        volumeDisplay.style.scale = '1'
+                        volumeDisplay.style.opacity = '1';
+
+                        clearTimeout(volumeDisplay._timeout);
+                        volumeDisplay._timeout = setTimeout(() => {
+                            volumeDisplay.style.scale = '0'
+                            volumeDisplay.style.opacity = '0';
+                        }, 1000);
+                    }
+                });
+            }
+        });
+    }
+}
+
+setInterval(() => {
+    const volumeControls = document.querySelectorAll('.JkKcxRVvjK7lcakkEliC.qpvIbN4_hF6CqK0bjCq7.SHvrm0VRiLVwGqJJjNO8');
+
+    if (altPressed) {
+        executeScript(volumeControls);
+    }
+}, 1000);
+
+setInterval(() => {
+    const element = document.querySelector('body > div > section > div > div > span.PlayerBarDesktop_settingsButton__jLkVn');
+    if (element) {
+        element.textContent = '';
+    }
+}, 0);
