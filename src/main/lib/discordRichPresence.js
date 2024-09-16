@@ -34,7 +34,7 @@ const initRPC = () => {
   });
 
   rpc.on("error", (e) => {
-    if(e.name === 'Could not connect') {
+    if (e.name === 'Could not connect') {
       isReady = false;
     }
     discordRichPresenceLogger.info("Error", e.name);
@@ -98,6 +98,11 @@ async function setActivity(
     }
   }
 
+  if (state === "paused") {
+    rpc.clearActivity();
+    return;
+  }
+
   let startTimestamp = Date.now() - trackProgress * 1000;
   let endTimestamp = startTimestamp + trackDurationMs;
   let stateKey = states[state]?.icon;
@@ -120,18 +125,11 @@ async function setActivity(
     timeoutId = undefined;
   }
 
-  if (state === "paused") {
-    rpc.clearActivity();
-    return;
-  }
-
   let activityObject = {
     type: 2,
     details: string2Discord(trackName),
     state: string2Discord(trackArtist),
     largeImageKey: trackAlbumAvatar,
-    smallImageKey: "null",
-    smallImageText: stateText,
     startTimestamp,
     endTimestamp,
     instance: true,
@@ -228,10 +226,10 @@ const discordRichPresence = (playingState) => {
 
   let album = playingState.track.albums?.[0]?.title;
 
-  if (title === album) {
+  if (title === album || album === undefined) {
     album = undefined;
   } else if (isListeningType) {
-    album = album;
+    album = "on " + album;
   }
 
   let albumArt = undefined;
