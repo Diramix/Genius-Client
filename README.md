@@ -144,7 +144,6 @@ Devtools по умолчанию отключены. Чтобы включить
 Яндекс Музыка запускается быстро и плавно.
 </details>
 
-
 ### Добавлен Volume Master
 <details>
     <summary>Подробнее</summary>
@@ -165,6 +164,14 @@ Devtools по умолчанию отключены. Чтобы включить
 
 </div>
 
+</details>
+
+### Удалены блоки концертов
+<details>
+    <summary>Подробнее</summary>
+Встроен скрипт "No Concerts 1.0.0" для удаления блоков концертов
+	
+![image](https://github.com/user-attachments/assets/383c8112-474a-4cc9-8f22-733aaf44b9d5)
 </details>
 
 ## Настройки
