@@ -25,26 +25,7 @@ const eventsLogger = new Logger_js_1.Logger("Events");
 const isBoolean = (value) => {
   return typeof value === "boolean";
 };
-
-                const handleApplicationEvents = (window) => {
-                    electron_1.session.defaultSession.webRequest.onCompleted({ urls: ['https://api.music.yandex.net/*'] }, (details) => {
-                        const url = details.url;
-                        const regex = /https:\/\/api\.music\.yandex\.net\/get-file-info\?ts=\d+&trackId=(\d+)/;
-
-                        const match = url.match(regex);
-                        if (match && match[1]) {
-                            const trackId = match[1];
-                            const trackInfo = {
-                                url,
-                                trackId,
-                            }
-                            console.log("Track ID found:", trackId);
-                            fetch("http://127.0.0.1:2007/track_info", {
-                                method: "POST",
-                                body: JSON.stringify(trackInfo),
-                            });
-                        }
-                    });
+const handleApplicationEvents = (window) => {
   const updater = (0, updater_js_1.getUpdater)();
   electron_1.ipcMain.on(events_js_1.Events.APPLICATION_RESTART, () => {
     eventsLogger.info("Event received", events_js_1.Events.APPLICATION_RESTART);
@@ -78,7 +59,8 @@ const isBoolean = (value) => {
     updater.install();
   });
   electron_1.ipcMain.on(events_js_1.Events.APPLICATION_READY, () => {
-    eventsLogger.info("Event received", events_js_1.Events.APPLICATION_READY);
+        eventsLogger.info('Event received', events_js_1.Events.APPLICATION_READY);
+        (0, exports.sendProbabilityBucket)(window, updater.getProbabilityBucket());
     if (state_js_1.state.deeplink) {
       (0, handleDeeplink_js_1.navigateToDeeplink)(
         window,
@@ -145,6 +127,11 @@ const isBoolean = (value) => {
   });
 };
 exports.handleApplicationEvents = handleApplicationEvents;
+const sendProbabilityBucket = (window, bucket) => {
+    window.webContents.send(events_js_1.Events.PROBABILITY_BUCKET, bucket);
+    eventsLogger.info('Event sent', events_js_1.Events.PROBABILITY_BUCKET, bucket);
+};
+exports.sendProbabilityBucket = sendProbabilityBucket;
 const sendUpdateAvailable = (window, version) => {
   window.webContents.send(events_js_1.Events.UPDATE_AVAILABLE, version);
   eventsLogger.info("Event sent", events_js_1.Events.UPDATE_AVAILABLE, version);

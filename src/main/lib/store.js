@@ -5,7 +5,8 @@ var __importDefault =
     return mod && mod.__esModule ? mod : { default: mod };
   };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isFirstLaunch =
+exports.getDeviceId =
+  exports.isFirstLaunch =
   exports.needToShowReleaseNotes =
   exports.getWindowDimensions =
   exports.setWindowDimensions =
@@ -18,6 +19,7 @@ const electron_1 = require("electron");
 const electron_store_1 = __importDefault(require("electron-store"));
 const store_js_1 = require("../constants/store.js");
 const config_js_1 = require("../config.js");
+const generateDeviceId_js_1 = require("./generateDeviceId.js");
 const store = new electron_store_1.default();
 
 const init = () => {
@@ -49,6 +51,12 @@ const init = () => {
     },
   });
   initField(store_js_1.StoreKeys.IS_DEVTOOLS_ENABLED, false);
+  initField(store_js_1.StoreKeys.EXPERIMENT_OVERRIDES, {
+      WebNextEqualizer: 'on',
+      WebNextTrackAboutModal: 'on',
+      WebNextLanguageSwitcher: 'on',
+      WebNextUGC: 'on',
+  });
 };
 exports.init = init;
 
@@ -99,6 +107,26 @@ const isFirstLaunch = () => {
 };
 exports.isFirstLaunch = isFirstLaunch;
 
+exports.getDeviceId = (() => {
+    let cachedDeviceId;
+    return () => {
+        let deviceId;
+        if (cachedDeviceId) {
+            deviceId = cachedDeviceId;
+        }
+        else {
+            deviceId = store.get(store_js_1.StoreKeys.DEVICE_ID);
+            cachedDeviceId = deviceId;
+        }
+        if (!deviceId) {
+            deviceId = (0, generateDeviceId_js_1.generateDeviceId)();
+            cachedDeviceId = deviceId;
+            store.set(store_js_1.StoreKeys.DEVICE_ID, deviceId);
+        }
+        return String(deviceId);
+    };
+})();
+
 const getWindowDimensions = () => {
   return store.get(store_js_1.StoreKeys.WINDOW_DIMENSIONS);
 };
@@ -121,3 +149,7 @@ const getModFeatures = () => {
   return store.get(store_js_1.StoreKeys.MOD_FEATURES);
 };
 exports.getModFeatures = getModFeatures;
+const getExperimentOverrides = () => {
+    return store.get(store_js_1.StoreKeys.EXPERIMENT_OVERRIDES);
+};
+exports.getExperimentOverrides = getExperimentOverrides;

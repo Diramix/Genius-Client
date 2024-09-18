@@ -8,9 +8,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.applyCommonConfig = exports.config = void 0;
 const package_json_1 = __importDefault(require("../package.json"));
 exports.config = {
-  enableDevTools: true,
-  enableWebSecurity: false,
+  enableDevTools: false,
+  enableWebSecurity: true,
   enableAutoUpdate: true,
+  enableUpdateByProbability: false,
   bypassCSP: false,
   buildPath: "app",
   appProtocol: "music-application",
@@ -26,7 +27,7 @@ exports.config = {
     clickErrorCounter: "690.2354",
   },
   modification: {
-      version: "1.14.3",
+      version: "1.15.0",
       branch: "onlyDiscordRPC"
   },
 };
