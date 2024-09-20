@@ -122,6 +122,23 @@ https://github.com/user-attachments/assets/b062a3ee-d05e-4cf3-8e03-b6f8bf66525c
 
 </details>
 
+### Эксперементы
+<details>
+   <summary>Подробнее</summary>
+   
+Позволяет включать/выключать эксперементы. Для этого вам нужно модифицировать `%appdata%\YandexMusic\config.json`:
+
+По умолчанию переопределены эти эксперементы:
+```js
+{
+      WebNextEqualizer: 'on',
+      WebNextTrackAboutModal: 'on',
+      WebNextLanguageSwitcher: 'on',
+      WebNextUGC: 'on',
+}
+```
+</details>
+
 ### Devtools & Панель Разработчика
 <details>
    <summary>Подробнее</summary>
