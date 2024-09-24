@@ -21,7 +21,7 @@
 1. Откройте командную строку (Win + R -> cmd -> Enter)
 2. Выполните эту команду
    ```bat
-   curl -L https://github.com/Diramix/Genius-Client/releases/download/Genius-Client-1.0.1/app.asar > %localappdata%/Programs/YandexMusic/resources/app.asar
+   curl -L https://github.com/Diramix/Genius-Client/releases/download/Genius-Client-1.1.0/app.asar > %localappdata%/Programs/YandexMusic/resources/app.asar
    ```
 3. Готово!
 
@@ -122,6 +122,23 @@ https://github.com/user-attachments/assets/b062a3ee-d05e-4cf3-8e03-b6f8bf66525c
 
 </details>
 
+### Эксперементы
+<details>
+   <summary>Подробнее</summary>
+   
+Позволяет включать/выключать эксперементы. Для этого вам нужно модифицировать `%appdata%\YandexMusic\config.json`:
+
+По умолчанию переопределены эти эксперементы:
+```js
+{
+      WebNextEqualizer: 'on',
+      WebNextTrackAboutModal: 'on',
+      WebNextLanguageSwitcher: 'on',
+      WebNextUGC: 'on',
+}
+```
+</details>
+
 ### Devtools & Панель Разработчика
 <details>
    <summary>Подробнее</summary>
@@ -144,7 +161,6 @@ Devtools по умолчанию отключены. Чтобы включить
 Яндекс Музыка запускается быстро и плавно.
 </details>
 
-
 ### Добавлен Volume Master
 <details>
     <summary>Подробнее</summary>
@@ -165,6 +181,14 @@ Devtools по умолчанию отключены. Чтобы включить
 
 </div>
 
+</details>
+
+### Удалены блоки концертов
+<details>
+    <summary>Подробнее</summary>
+Встроен скрипт "No Concerts 1.0.0" для удаления блоков концертов
+	
+![image](https://github.com/user-attachments/assets/383c8112-474a-4cc9-8f22-733aaf44b9d5)
 </details>
 
 ## Настройки
