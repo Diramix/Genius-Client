@@ -45,14 +45,6 @@ function initRum({
         Ya.Rum.observeDOMNode('2876', heroElement);
 }
 
-// Удаление HQ+ из мода
-setInterval(() => {
-    const element = document.querySelector('body > div > section > div > div > span.PlayerBarDesktop_settingsButton__jLkVn');
-    if (element) {
-        element.textContent = '';
-    }
-}, 0);
-
 // Удаление концертов
 const style = document.createElement('style');
 style.innerHTML = `
