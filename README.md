@@ -21,7 +21,7 @@
 1. Откройте командную строку (Win + R -> cmd -> Enter)
 2. Выполните эту команду
    ```bat
-   curl -L https://github.com/Diramix/Genius-Client/releases/download/Genius-Client-1.1.0/app.asar > %localappdata%/Programs/YandexMusic/resources/app.asar
+   curl -L https://github.com/Diramix/Genius-Client/releases/download/Genius-Client-1.1.1/app.asar > %localappdata%/Programs/YandexMusic/resources/app.asar
    ```
 3. Готово!
 
