@@ -19,10 +19,17 @@
 
 0. Загрузите последнюю версию клиента Яндекс музыки с официального сайта https://music.yandex.com/download/
 1. Откройте командную строку (Win + R -> cmd -> Enter)
-2. Выполните эту команду
-   ```bat
-   curl -L https://github.com/Diramix/Genius-Client/releases/download/Genius-Client-1.1.3/app.asar > %localappdata%/Programs/YandexMusic/resources/app.asar
-   ```
+2. Выполните команду.
+
+Команда для установки обычной версии
+```bat
+curl -L https://github.com/Diramix/Genius-Client/releases/download/Genius-Client-1.2.0/app.asar > %localappdata%/Programs/YandexMusic/resources/app.asar
+```
+
+Команда для установки версии с системной рамкой
+```bat
+curl -L https://github.com/Diramix/Genius-Client/releases/download/Genius-Client-1.2.0/app-wsf.asar > %localappdata%/Programs/YandexMusic/resources/app.asar
+```
 3. Готово!
 
 > [!NOTE]  
@@ -189,6 +196,23 @@ Devtools по умолчанию отключены. Чтобы включить
 Встроен скрипт "No Concerts 1.0.0" для удаления блоков концертов
 	
 ![image](https://github.com/user-attachments/assets/383c8112-474a-4cc9-8f22-733aaf44b9d5)
+</details>
+
+### Свободное изменение размера окна
+<details>
+    <summary>Подробнее</summary>
+	
+![image](https://github.com/user-attachments/assets/67256d66-312f-4303-8d95-4f947af32547)
+
+</details>
+
+### Версия с системной рамкой окна
+<details>
+    <summary>Подробнее</summary>
+	
+![image](https://github.com/user-attachments/assets/f5bf2616-bb45-4918-bbde-d208aa03fdf2)
+![изображение](https://github.com/user-attachments/assets/50cd6be4-000e-4f64-ba42-bb80016f9b20)
+
 </details>
 
 ## Настройки
