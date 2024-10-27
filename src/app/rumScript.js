@@ -48,9 +48,10 @@ function initRum({
 // Удаление концертов
 const style = document.createElement('style');
 style.innerHTML = `
-  [data-intersection-property-id="concerts_personal"],
-  [data-intersection-property-id="ConcertsTop"],
-  [id="concerts"] {
+    [data-intersection-property-id="concerts_personal"],
+    [data-intersection-property-id="ConcertsTop"],
+    [id="concerts"],
+    .Donations_root__xo2BC {
     display: none;
   }
 `;

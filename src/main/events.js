@@ -1,17 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendAnalyticsOnFirstLaunch =
-  exports.sendOpenDeeplink =
-  exports.sendPlayerAction =
-  exports.sendRefreshApplicationData =
-  exports.sendShowReleaseNotes =
-  exports.sendUpdateAvailable =
-  exports.handleApplicationEvents =
-    void 0;
+exports.sendAnalyticsOnFirstLaunch = exports.sendOpenDeeplink = exports.sendPlayerAction = exports.sendRefreshApplicationData = exports.sendUpdateAvailable = exports.sendLoadReleaseNotes = exports.sendProbabilityBucket = exports.handleApplicationEvents = void 0;
 const electron_1 = require("electron");
-const NodeID3 = require('node-id3').Promise;
-const fs = require('fs').promises;
-const events_js_1 = require("./constants/events.js");
+const NodeID3 = require("node-id3").Promise;
+const fs = require("fs").promises;
+const events_js_1 = require("./types/events.js");
 const Logger_js_1 = require("./packages/logger/Logger.js");
 const updater_js_1 = require("./lib/updater.js");
 const tray_js_1 = require("./lib/tray.js");
@@ -23,57 +16,105 @@ const store_js_1 = require("./lib/store.js");
 const state_js_1 = require("./lib/state.js");
 const createWindow_js_1 = require("./lib/createWindow.js");
 const handleDeeplink_js_1 = require("./lib/handlers/handleDeeplink.js");
-const eventsLogger = new Logger_js_1.Logger("Events");
+const loadReleaseNotes_js_1 = require("./lib/loadReleaseNotes.js");
+const deviceInfo_js_1 = require("./lib/deviceInfo.js");
+const eventsLogger = new Logger_js_1.Logger('Events');
 const isBoolean = (value) => {
   return typeof value === "boolean";
 };
 
 const artists2string = (artists) => {
-    if (!artists) return;
-    if (artists.length <= 1)
-        return artists?.[0].name;
-    let string = (artists.shift())?.name;
-    artists.forEach((a)=>{string += ' & ' + a.name})
-    return string;
-}
+  if (!artists) return;
+  if (artists.length <= 1) return artists?.[0].name;
+  let string = artists.shift()?.name;
+  artists.forEach((a) => {
+    string += " & " + a.name;
+  });
+  return string;
+};
 
 const handleApplicationEvents = (window) => {
   const updater = (0, updater_js_1.getUpdater)();
-    electron_1.ipcMain.on(events_js_1.Events.DOWNLOAD_TRACK, async (event, data) => {
-        eventsLogger.info("Event received", events_js_1.Events.DOWNLOAD_TRACK);
-        const downloadURL = data.downloadURL;
-        const artistCombined = artists2string(data.track?.artists)
-        console.log(data.track)
-        const tags = {
-            title: data.track?.title,
-            artist: artistCombined,
-            album: data.track?.albums?.[0]?.title,
-        }
 
-        const { canceled, filePath } = await electron_1.dialog.showSaveDialog({
-          defaultPath: `${artistCombined} — ${data.track?.title}.${data.codec}`,
-        });
-        if (canceled || !filePath || !downloadURL) return eventsLogger.info("Track download canceled", events_js_1.Events.DOWNLOAD_TRACK);
-        const res = await fetch(downloadURL);
-        let buffer = Buffer.from(await res.arrayBuffer());
-        eventsLogger.info("Got track", events_js_1.Events.DOWNLOAD_TRACK)
-        let coverRes, coverBuffer;
-        if (data.track?.coverUri) {
-          coverRes = await fetch('https://' + data.track?.coverUri.replace('%%', '400x400'));
-          coverBuffer = Buffer.from(await coverRes.arrayBuffer());
-          eventsLogger.info("Got cover", events_js_1.Events.DOWNLOAD_TRACK)
-        }
-        if (coverBuffer) {
-            tags.APIC = coverBuffer;
-        }
-        buffer = await NodeID3.write(tags, buffer);
-        await fs.writeFile(filePath, buffer);
-        eventsLogger.info("Track downloaded", events_js_1.Events.DOWNLOAD_TRACK);
-    });
+  if (store_js_1.getModFeatures()?.globalShortcuts) {
+    const shortcuts = Object.entries(store_js_1.getModFeatures().globalShortcuts);
+    shortcuts.forEach(shortcut => {
+        if(shortcut[1]) electron_1.globalShortcut.register(shortcut[1], () => { sendPlayerAction(window, shortcut[0]) })
+    })
+  }
+
+  electron_1.ipcMain.on(
+    events_js_1.Events.DOWNLOAD_TRACK,
+    async (event, data) => {
+      eventsLogger.info("Event received", events_js_1.Events.DOWNLOAD_TRACK);
+      const downloadURL = data.downloadURL;
+      const artistCombined = artists2string(data.track?.artists);
+      //console.log(data.track)
+      const tags = {
+        title: data.track?.title,
+        artist: artistCombined,
+        album: data.track?.albums?.[0]?.title,
+      };
+
+      const { canceled, filePath } = await electron_1.dialog.showSaveDialog({
+        defaultPath: `${artistCombined} — ${data.track?.title}.${data.codec}`,
+      });
+      if (canceled || !filePath || !downloadURL)
+        return eventsLogger.info(
+          "Track download canceled",
+          events_js_1.Events.DOWNLOAD_TRACK,
+        );
+      window.setProgressBar(0);
+      const res = await fetch(downloadURL);
+
+      // const contentLength = parseInt(res.headers.get('content-length'), 10);
+      // let downloadedChunksLength = 0;
+      // res.on('data', (chunk) => {
+      //     downloadedChunksLength += chunk.length;
+      //     window.setProgressBar(downloadedChunksLength/contentLength);
+      // })
+
+      let buffer = Buffer.from(await res.arrayBuffer());
+
+      window.setProgressBar(1.1);
+
+      eventsLogger.info("Got track", events_js_1.Events.DOWNLOAD_TRACK);
+      let coverRes, coverBuffer;
+      if (data.track?.coverUri) {
+        coverRes = await fetch(
+          "https://" + data.track?.coverUri.replace("%%", "400x400"),
+        );
+        coverBuffer = Buffer.from(await coverRes.arrayBuffer());
+        eventsLogger.info("Got cover", events_js_1.Events.DOWNLOAD_TRACK);
+      }
+      if (coverBuffer) {
+        tags.APIC = coverBuffer;
+      }
+
+      buffer = await NodeID3.write(tags, buffer);
+
+      window.setProgressBar(0.95);
+
+      await fs.writeFile(filePath, buffer);
+
+      window.setProgressBar(1);
+
+      eventsLogger.info("Track downloaded", events_js_1.Events.DOWNLOAD_TRACK);
+
+      setTimeout(() => {
+        window.setProgressBar(-1);
+      }, 1000);
+    },
+  );
+
+    electron_1.app.on('will-quit', () => {
+        electron_1.globalShortcut.unregisterAll()
+    })
+
   electron_1.ipcMain.on(events_js_1.Events.APPLICATION_RESTART, () => {
     eventsLogger.info("Event received", events_js_1.Events.APPLICATION_RESTART);
-    electron_1.app.relaunch()
-    electron_1.app.exit()
+    electron_1.app.relaunch();
+    electron_1.app.exit();
   });
   electron_1.ipcMain.on(events_js_1.Events.WINDOW_MINIMIZE, () => {
     eventsLogger.info("Event received", events_js_1.Events.WINDOW_MINIMIZE);
@@ -101,14 +142,11 @@ const handleApplicationEvents = (window) => {
     eventsLogger.info("Event received", events_js_1.Events.INSTALL_UPDATE);
     updater.install();
   });
-  electron_1.ipcMain.on(events_js_1.Events.APPLICATION_READY, () => {
+    electron_1.ipcMain.on(events_js_1.Events.APPLICATION_READY, async (event, language) => {
         eventsLogger.info('Event received', events_js_1.Events.APPLICATION_READY);
-        (0, exports.sendProbabilityBucket)(window, updater.getProbabilityBucket());
+        (0, deviceInfo_js_1.logHardwareInfo)();
     if (state_js_1.state.deeplink) {
-      (0, handleDeeplink_js_1.navigateToDeeplink)(
-        window,
-        state_js_1.state.deeplink,
-      );
+            (0, handleDeeplink_js_1.navigateToDeeplink)(window, state_js_1.state.deeplink);
     }
     if (updater.latestAvailableVersion) {
       (0, exports.sendUpdateAvailable)(window, updater.latestAvailableVersion);
@@ -116,19 +154,17 @@ const handleApplicationEvents = (window) => {
     if ((0, store_js_1.isFirstLaunch)()) {
       (0, exports.sendAnalyticsOnFirstLaunch)(window);
     }
+        (0, exports.sendProbabilityBucket)(window, updater.getProbabilityBucket());
+        const releaseNotes = await (0, loadReleaseNotes_js_1.loadReleaseNotes)(language);
+        if (releaseNotes) {
+            (0, exports.sendLoadReleaseNotes)(window, (0, store_js_1.needToShowReleaseNotes)(), releaseNotes);
+        }
   });
   electron_1.ipcMain.on(
     events_js_1.Events.APPLICATION_THEME,
     (event, backgroundColor) => {
       eventsLogger.info("Event received", events_js_1.Events.APPLICATION_THEME);
       window.setBackgroundColor(backgroundColor);
-    },
-  );
-  electron_1.ipcMain.on(events_js_1.Events.RELEASE_NOTES_READY, () => {
-    eventsLogger.info("Event received", events_js_1.Events.RELEASE_NOTES_READY);
-    if ((0, store_js_1.needToShowReleaseNotes)()) {
-      (0, exports.sendShowReleaseNotes)(window);
-    }
   });
   electron_1.ipcMain.on(events_js_1.Events.PLAYER_STATE, (event, data) => {
     eventsLogger.info(
@@ -171,10 +207,19 @@ const handleApplicationEvents = (window) => {
 };
 exports.handleApplicationEvents = handleApplicationEvents;
 const sendProbabilityBucket = (window, bucket) => {
-    window.webContents.send(events_js_1.Events.PROBABILITY_BUCKET, bucket);
-    eventsLogger.info('Event sent', events_js_1.Events.PROBABILITY_BUCKET, bucket);
+  window.webContents.send(events_js_1.Events.PROBABILITY_BUCKET, bucket);
+  eventsLogger.info(
+    "Event sent",
+    events_js_1.Events.PROBABILITY_BUCKET,
+    bucket,
+  );
 };
 exports.sendProbabilityBucket = sendProbabilityBucket;
+const sendLoadReleaseNotes = (window, needToShowReleaseNotes, releaseNotes) => {
+    window.webContents.send(events_js_1.Events.LOAD_RELEASE_NOTES, needToShowReleaseNotes, releaseNotes);
+    eventsLogger.info('Event sent', events_js_1.Events.LOAD_RELEASE_NOTES);
+};
+exports.sendLoadReleaseNotes = sendLoadReleaseNotes;
 const sendUpdateAvailable = (window, version) => {
   window.webContents.send(events_js_1.Events.UPDATE_AVAILABLE, version);
   eventsLogger.info("Event sent", events_js_1.Events.UPDATE_AVAILABLE, version);
