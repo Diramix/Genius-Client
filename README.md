@@ -23,12 +23,12 @@
 
 Команда для установки обычной версии
 ```bat
-curl -L https://github.com/Diramix/Genius-Client/releases/download/Genius-Client-1.3.1/app.asar > %localappdata%/Programs/YandexMusic/resources/app.asar
+curl -L https://github.com/Diramix/Genius-Client/releases/download/Genius-Client-1.3.2/app.asar > %localappdata%/Programs/YandexMusic/resources/app.asar
 ```
 
 Команда для установки версии с системной рамкой
 ```bat
-curl -L https://github.com/Diramix/Genius-Client/releases/download/Genius-Client-1.3.1/app-wsf.asar > %localappdata%/Programs/YandexMusic/resources/app.asar
+curl -L https://github.com/Diramix/Genius-Client/releases/download/Genius-Client-1.3.2/app-wsf.asar > %localappdata%/Programs/YandexMusic/resources/app.asar
 ```
 3. Готово!
 
