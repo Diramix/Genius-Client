@@ -79,6 +79,7 @@ async function setActivity(
   state,
   trackName = "unknown",
   trackArtist = undefined,
+  trackAlbum = undefined,
   trackAlbumAvatar = "logo",
   trackProgress = undefined,
   trackDurationMs = undefined,
@@ -134,12 +135,19 @@ async function setActivity(
     details: string2Discord(trackName),
     state: string2Discord(trackArtist),
     largeImageKey: trackAlbumAvatar,
-    smallImageKey: stateKey,
-    smallImageText: stateText,
     startTimestamp,
     endTimestamp,
     instance: false,
   };
+
+  if(settings?.showSmallIcon ?? true) {
+      activityObject.smallImageKey = stateKey;
+      activityObject.smallImageText = stateText;
+  }
+
+  if(settings?.showAlbum ?? true) {
+      activityObject.largeImageText = string2Discord(trackAlbum);
+  }
 
   if (
     (deepShareTrackUrl || webShareTrackUrl) &&
@@ -186,6 +194,8 @@ async function setActivity(
     .then((activity) => silentTypeCheck(activity))
     .catch((e) => {
       discordRichPresenceLogger.error(e);
+      //console.log(e.name);
+      //isReady = false;
     });
 
   return true;
@@ -220,19 +230,28 @@ const getArtist = (artistsArray) => {
 };
 
 const discordRichPresence = (playingState) => {
+  if(!playingState.track) return undefined;
   if (playingState.status.startsWith("loading")) {
     playingState.status = "playing";
   }
   let title = playingState.track?.title;
-  if (playingState.track.version) {
+  if (playingState.track?.version) {
     title = playingState.track.title + ` (${playingState.track.version})`;
   }
 
   const artist = getArtist(playingState.track?.artists);
 
+  let album = playingState.track?.albums?.[0]?.title;
+
+  if (title === album || album === undefined) {
+    album = undefined;
+  } else if (isListeningType) {
+    album = album;
+  }
+
   let albumArt = undefined;
 
-  if (playingState.track.coverUri)
+  if (playingState.track?.coverUri)
     albumArt = `https://${playingState.track.coverUri}`.replace(
       "%%",
       "400x400",
@@ -249,6 +268,7 @@ const discordRichPresence = (playingState) => {
     playingState.status,
     title,
     artist,
+    album,
     albumArt,
     playingState.progress,
     playingState.track.durationMs,

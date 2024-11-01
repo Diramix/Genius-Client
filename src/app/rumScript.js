@@ -45,15 +45,19 @@ function initRum({
         Ya.Rum.observeDOMNode('2876', heroElement);
 }
 
-// Удаление концертов
+// CSS
 const style = document.createElement('style');
 style.innerHTML = `
-    [data-intersection-property-id="concerts_personal"],
-    [data-intersection-property-id="ConcertsTop"],
-    [id="concerts"],
-    .Donations_root__xo2BC {
+/*Name Blur 1.0.1*/
+.UserProfile_userName__PTRuJ{filter: blur(7px);clip-path: inset(1px);}
+
+/*No Concerts 1.0.1*/
+[data-intersection-property-id="concerts_personal"],
+[data-intersection-property-id="ConcertsTop"],
+[id="concerts"],
+.Donations_root__xo2BC {
     display: none;
-  }
+}
 `;
 document.head.appendChild(style);
 
