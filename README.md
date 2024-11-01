@@ -23,12 +23,12 @@
 
 Команда для установки обычной версии
 ```bat
-curl -L https://github.com/Diramix/Genius-Client/releases/download/Genius-Client-1.3.2/app.asar > %localappdata%/Programs/YandexMusic/resources/app.asar
+curl -L https://github.com/Diramix/Genius-Client/releases/download/Genius-Client-1.3.3/app.asar > %localappdata%/Programs/YandexMusic/resources/app.asar
 ```
 
 Команда для установки версии с системной рамкой
 ```bat
-curl -L https://github.com/Diramix/Genius-Client/releases/download/Genius-Client-1.3.2/app-wsf.asar > %localappdata%/Programs/YandexMusic/resources/app.asar
+curl -L https://github.com/Diramix/Genius-Client/releases/download/Genius-Client-1.3.3/app-wsf.asar > %localappdata%/Programs/YandexMusic/resources/app.asar
 ```
 3. Готово!
 
@@ -38,125 +38,11 @@ curl -L https://github.com/Diramix/Genius-Client/releases/download/Genius-Client
 
 ## Возможности
 
-### Discord Статус
+### Discord RPC
 <details>
    <summary>Подробнее</summary>
 
-<details>
-   <summary>Настройки</summary>
-   
-      "discordRPC": {
-			"enable": true or false,                         //Включает или отключает disocrd RPC
-			"applicationIDForRPC": "1124055337234858005",    //ID пользовательского приложения вашего для discord RPC
-			"showButtons": true or false,                    //Включает или отключает все кнопки в состоянии discord 
-			"overrideDeepLinksExperiment": true or false,    //Включает или отключает разделение веб-кнопок и кнопок рабочего стола на одну кнопку
-			"showGitHubButton": true or false                //Включает или отключает кнопку Github, если для параметра overrideDeepLinksExperiment установлено значение true
-      }
-      
-</details>
-
-   
-Добавляет поддержку отображения текущего трека как статуса в Discord
-![изображение](https://github.com/user-attachments/assets/2816f0af-b5d3-4907-9dd4-d970f0f66593)
-
-</details>
-
-### Кнопки в превью панели задач
-<details>
-   <summary>Подробнее</summary>
-
-   
-Добавляет поддержку расширений панели задач (Taskbar Extensions)
-
-<details>
-   <summary>Настройки</summary>
-      
-      "taskBarExtensions": {
-			"enable": true or false //Включает или отключает расширения панели задач
-		}
-      
-</details>
-
-![изображение](https://github.com/user-attachments/assets/9877e5d5-677f-4e0f-8bbe-9294db3f780f)
-
-</details>
-
-### Возврат кнопки дизлайка
-<details>
-   <summary>Подробнее</summary>
-   
-Возвращает кнопку дизлайка в плеер на главной.
-
-![image](https://github.com/user-attachments/assets/22a83331-dfc4-4c7b-92c9-4fdbe2758910)
-
-</details>
-
-### Переключатель локализации
-<details>
-   <summary>Подробнее</summary>
-   
-Разблокирует переключатель локализации
-
-![изображение](https://github.com/user-attachments/assets/2b4bbeaa-b12c-4987-892d-bacd2111732a)
-
-</details>
-
-### Улучшенная анимация Моей Волны
-<details>
-   <summary>Подробнее</summary>
-   
-Улучшает поведение анимации Моей Волны. Она начинает лучше адаптироваться к музыке. Также позволяет настраивать частоту кадров в секунду при рендеринге анимации.
-<details>
-   <summary>Настройки</summary>
-      
-      "vibeAnimationEnhancement": {
-	    "maxFPS": 25,             	// Максимально допустимая частота кадров в секунду. По умолчанию: 25. Рекомендуемое: 25 - 144. Не устанавливайте значание меньше 1
-	    "intensityCoefficient": 1, 	// Чувствительность музыкального анализа. По умолчанию: 1; Рекомендуемое: 0,5 - 2; При значении 0 отключается улучшение анимации (почти :D)
-	    "linearDeBoost": 5,		// Коэффициент выделения пиков в треке от основного трека. По умолчанию: 5. Рекомендуемое: 2 - 8. Если 1, отключает разделение пиков.
-	    "playOnAnyEntity": false,	// Если включено, анимация воспроизводится, даже если источник трека не Моя Волна.
-	    "disableRendering": false	// Полностью отключает анимацию. Используйте только если почувствуете значительное падение кадров в секунду. В противном случае подберите оптимальное значение параметра maxFPS для вашей системы.
-      }
-      
-</details>
-
-До:
-
-https://github.com/user-attachments/assets/23a8da4d-3d6a-43c6-a5f5-965e065ed912
-
-После:
-
-https://github.com/user-attachments/assets/b062a3ee-d05e-4cf3-8e03-b6f8bf66525c
-
-</details>
-
-### Эксперементы
-<details>
-   <summary>Подробнее</summary>
-   
-Позволяет включать/выключать эксперементы. Для этого вам нужно модифицировать `%appdata%\YandexMusic\config.json`:
-
-По умолчанию переопределены эти эксперементы:
-```js
-{
-      WebNextEqualizer: 'on',
-      WebNextTrackAboutModal: 'on',
-      WebNextLanguageSwitcher: 'on',
-      WebNextUGC: 'on',
-}
-```
-</details>
-
-### Devtools & Панель Разработчика
-<details>
-   <summary>Подробнее</summary>
-   
-Devtools по умолчанию отключены. Чтобы включить их, вам необходимо изменить `%appdata%\YandexMusic\config.json`:
-
-Измените `"enableDevTools": false` на `"enableDevTools": true`
-
-![electron_L6SeZLnSAH](https://github.com/TheKing-OfTime/YandexMusicModClient/assets/68960526/ae841087-d910-45e5-a007-3fd869a493e1)
-
-![electron_y6aOeckPLH](https://github.com/TheKing-OfTime/YandexMusicModClient/assets/68960526/4bde4785-9196-4ac6-ad3b-9ac5db5b61c8)
+Удалены надписи в RPC "by" и "on".
 
 </details>
 
@@ -190,12 +76,21 @@ Devtools по умолчанию отключены. Чтобы включить
 
 </details>
 
-### Удалены блоки концертов
+### Скрипт No Concerts
 <details>
     <summary>Подробнее</summary>
-Встроен скрипт "No Concerts 1.0.0" для удаления блоков концертов
+Встроен скрипт "No Concerts 1.0.1" для удаления блоков концертов и донатов.
 	
 ![image](https://github.com/user-attachments/assets/383c8112-474a-4cc9-8f22-733aaf44b9d5)
+</details>
+
+### Скрипт Name Blur
+<details>
+    <summary>Подробнее</summary>
+Встроен скрипт "Name Blur 1.0.1" который блюрит ник.
+	
+![image](https://github.com/user-attachments/assets/c282f990-cb66-40a8-98a6-5830fc4e681c)
+
 </details>
 
 ### Свободное изменение размера окна
