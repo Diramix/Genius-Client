@@ -23,12 +23,12 @@
 
 Команда для установки обычной версии
 ```bat
-curl -L https://github.com/Diramix/Genius-Client/releases/download/Genius-Client-1.3.3/app.asar > %localappdata%/Programs/YandexMusic/resources/app.asar
+curl -L https://github.com/Diramix/Genius-Client/releases/download/Genius-Client-1.4.0/app.asar > %localappdata%/Programs/YandexMusic/resources/app.asar
 ```
 
 Команда для установки версии с системной рамкой
 ```bat
-curl -L https://github.com/Diramix/Genius-Client/releases/download/Genius-Client-1.3.3/app-wsf.asar > %localappdata%/Programs/YandexMusic/resources/app.asar
+curl -L https://github.com/Diramix/Genius-Client/releases/download/Genius-Client-1.4.0/app-wsf.asar > %localappdata%/Programs/YandexMusic/resources/app.asar
 ```
 3. Готово!
 
@@ -79,7 +79,7 @@ curl -L https://github.com/Diramix/Genius-Client/releases/download/Genius-Client
 ### Скрипт No Concerts
 <details>
     <summary>Подробнее</summary>
-Встроен скрипт "No Concerts 1.0.1" для удаления блоков концертов и донатов.
+Встроен скрипт "No Concerts 1.0.3" для удаления блоков концертов и донатов.
 	
 ![image](https://github.com/user-attachments/assets/383c8112-474a-4cc9-8f22-733aaf44b9d5)
 </details>
@@ -90,6 +90,13 @@ curl -L https://github.com/Diramix/Genius-Client/releases/download/Genius-Client
 Встроен скрипт "Name Blur 1.0.1" который блюрит ник.
 	
 ![image](https://github.com/user-attachments/assets/c282f990-cb66-40a8-98a6-5830fc4e681c)
+
+</details>
+
+### Скрипт MoveToFirst
+<details>
+    <summary>Подробнее</summary>
+Встроен скрипт "MoveToFirst 1.0.1" который перемещает закреп с лайкнутыми песнями на верх.
 
 </details>
 
