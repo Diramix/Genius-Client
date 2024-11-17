@@ -137,7 +137,7 @@ async function setActivity(
     largeImageKey: trackAlbumAvatar,
     startTimestamp,
     endTimestamp,
-    instance: false,
+    instance: true,
   };
 
   if(settings?.showSmallIcon ?? true) {

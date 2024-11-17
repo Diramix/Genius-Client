@@ -2,7 +2,7 @@
 var __importDefault =
   (this && this.__importDefault) ||
   function (mod) {
-    return mod && mod.__esModule ? mod : { default: mod };
+    return (mod && mod.__esModule) ? mod : { "default": mod };
   };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.applyCommonConfig = exports.config = void 0;
@@ -27,7 +27,7 @@ exports.config = {
     clickErrorCounter: "690.2354",
   },
   modification: {
-      version: "1.16.3",
+      version: "1.17.1",
   },
 };
 const applyCommonConfig = (commonConfig) => {

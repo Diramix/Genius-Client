@@ -51,15 +51,33 @@ style.innerHTML = `
 /*Name Blur 1.0.1*/
 .UserProfile_userName__PTRuJ{filter: blur(7px);clip-path: inset(1px);}
 
-/*No Concerts 1.0.1*/
+/*No Concerts 1.0.3*/
 [data-intersection-property-id="concerts_personal"],
 [data-intersection-property-id="ConcertsTop"],
 [id="concerts"],
-.Donations_root__xo2BC {
+.Donations_root__xo2BC,
+.BarBelow_root__KFexT,
+.PageHeaderArtist_label__rXyrB:nth-child(2) {
     display: none;
 }
 `;
 document.head.appendChild(style);
+
+// MoveToFirst 1.0.1
+function movePinToFirstIfNotFirst() {
+    let pin = document.querySelector('.PinsList_pin__4G9XT > a[aria-label="Плейлист Мне нравится"]');
+    if (pin) {
+        let parentPin = pin.closest('.PinsList_pin__4G9XT');
+        if (parentPin) {
+            let pinsList = parentPin.parentNode;
+            if (pinsList.firstChild !== parentPin) {
+                pinsList.insertBefore(parentPin, pinsList.firstChild);
+            }
+        }
+    }
+}
+
+setInterval(movePinToFirstIfNotFirst, 250);
 
 // Volume Master
 let altPressed = false;
