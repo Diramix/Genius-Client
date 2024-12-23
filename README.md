@@ -118,9 +118,9 @@ curl -L https://github.com/Diramix/Genius-Client/releases/download/Genius-Client
 </details>
 
 ## Настройки
-Настройки можно найти в `%appdata%\YandexMusic\config.json`
+Настройки можно найти в настройках Яндекс Музыки.
 
-Настройки внутри приложения появятся скоро™ 
+Доп. настройки можно найти по пути `%appdata%\YandexMusic\config.json`
 
 ## Поддержка
 Если вам действительно понравился новый опыт использования Яндекс Музыки с этой модификацией, вы можете поддержать работу TheKingOfTime над ней:
