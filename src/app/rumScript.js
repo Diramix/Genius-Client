@@ -114,7 +114,7 @@ function executeScript(volumeCon) {
     if (!existingVolumeDisplay) {
         volumeCon.forEach(control => {
             console.log('Найден элемент:', control);
-            if (control.getAttribute('aria-label') === 'Управление громкостью' && control.getAttribute('max') === '1' && control.getAttribute('step') === '0.01') {
+            if (control.getAttribute('data-test-id') === 'CHANGE_VOLUME_SLIDER' && control.getAttribute('max') === '1' && control.getAttribute('step') === '0.01') {
                 console.log('Элемент для управления громкостью найден:', control);
 
                 const volumeDisplay = document.createElement('div');

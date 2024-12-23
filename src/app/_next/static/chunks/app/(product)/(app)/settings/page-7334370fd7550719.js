@@ -519,13 +519,76 @@
           A = (0, d.useCallback)(() => {
             s.open();
           }, [s]),
-          onDevtoolsToggle = (0, d.useCallback)(async (e) => {
-            console.log("devtools toggled. Value: ", e);
-            window.nativeSettings.set("enableDevTools", e);
-          }, []),
+          onDevtoolsToggle = (0, d.useCallback)(
+            async (e) => {
+              console.log("devtools toggled. Value: ", e);
+              window.nativeSettings.set("enableDevTools", e);
+              u(
+                (0, n.jsx)(_.Q, {
+                  error: "Для применения этой настройки требуется перезапуск приложения",
+                }),
+                { containerId: p.W$x.ERROR },
+              );
+            },
+            [u],
+          ),
           onAutoUpdatesToggle = (0, d.useCallback)(async (e) => {
             console.log("auto updates toggled. Value: ", e);
             window.nativeSettings.set("enableAutoUpdates", e);
+            u(
+              (0, n.jsx)(_.Q, {
+                error: "Для применения этой настройки требуется перезапуск приложения",
+              }),
+              { containerId: p.W$x.ERROR },
+            );
+          }, [u]),
+          onDiscordStatusToggle = (0, d.useCallback)(async (e) => {
+            console.log("modFeatures.discordRPC.enable toggled. Value: ", e);
+            window.nativeSettings.set("modFeatures.discordRPC.enable", e);
+          }, []),
+          onDisableVibeRenderingToggle = (0, d.useCallback)(async (e) => {
+            console.log(
+              "modFeatures.vibeAnimationEnhancement.disableRendering toggled. Value: ",
+              e,
+            );
+            window.nativeSettings.set(
+              "modFeatures.vibeAnimationEnhancement.disableRendering",
+              e,
+            );
+          }, []),
+          onPlayOnAnyEntityToggle = (0, d.useCallback)(async (e) => {
+            console.log(
+              "modFeatures.vibeAnimationEnhancement.playOnAnyEntity. Value: ",
+              e,
+            );
+            window.nativeSettings.set(
+              "modFeatures.vibeAnimationEnhancement.playOnAnyEntity",
+              e,
+            );
+          }, []),
+          onShowDislikeToggle = (0, d.useCallback)(async (e) => {
+            console.log(
+              "modFeatures.playerBarEnhancement.showDislikeButton toggled. Value: ",
+              e,
+            );
+            window.nativeSettings.set(
+              "modFeatures.playerBarEnhancement.showDislikeButton",
+              e,
+            );
+          }, []),
+          onShowCodecToggle = (0, d.useCallback)(async (e) => {
+            console.log(
+              "modFeatures.playerBarEnhancement.showCodecInsteadOfQualityMark toggled. Value: ",
+              e,
+            );
+            window.nativeSettings.set(
+              "modFeatures.playerBarEnhancement.showCodecInsteadOfQualityMark",
+              e,
+            );
+          }, []),
+          onOpenMoreSettings = (0, d.useCallback)(async (e) => {
+            console.log("User navigated to config.json", e);
+            window.openConfigFile();
           }, []);
         return (0, n.jsxs)("ul", {
           className: H().root,
@@ -611,7 +674,64 @@
             (0, n.jsx)("li", {
               className: H().item,
               children: (0, n.jsx)(P, {
+                title: "Discord RPC",
+                description: "Отображать текущий трек в Discord",
+                onChange: onDiscordStatusToggle,
+                isChecked: window.nativeSettings.get(
+                  "modFeatures.discordRPC.enable",
+                ),
+              }),
+            }),
+            (0, n.jsx)("li", {
+              className: H().item,
+              children: (0, n.jsx)(P, {
+                title: "Отключить отрисовку анимации Волны",
+                onChange: onDisableVibeRenderingToggle,
+                isChecked: window.nativeSettings.get(
+                  "modFeatures.vibeAnimationEnhancement.disableRendering",
+                ),
+              }),
+            }),
+            (0, n.jsx)("li", {
+              className: H().item,
+              children: (0, n.jsx)(P, {
+                title: "Реакция анимации Волны на любые треки",
+                description:
+                  "Анимация станет реагировать на треки из плейлистов, альбомов и т.п.",
+                onChange: onPlayOnAnyEntityToggle,
+                isChecked: window.nativeSettings.get(
+                  "modFeatures.vibeAnimationEnhancement.playOnAnyEntity",
+                ),
+              }),
+            }),
+            (0, n.jsx)("li", {
+              className: H().item,
+              children: (0, n.jsx)(P, {
+                title: "Вернуть Дизлайк",
+                description: "Возвращает кнопку дизлайка в основном плеере",
+                onChange: onShowDislikeToggle,
+                isChecked: window.nativeSettings.get(
+                  "modFeatures.playerBarEnhancement.showDislikeButton",
+                ),
+              }),
+            }),
+            (0, n.jsx)("li", {
+              className: H().item,
+              children: (0, n.jsx)(P, {
+                title: "Отображать кодек",
+                description: "Отображает кодек вместо качества трека",
+                onChange: onShowCodecToggle,
+                isChecked: window.nativeSettings.get(
+                  "modFeatures.playerBarEnhancement.showCodecInsteadOfQualityMark",
+                ),
+              }),
+            }),
+            (0, n.jsx)("li", {
+              className: H().item,
+              children: (0, n.jsx)(P, {
                 title: "Режим разработчика",
+                description:
+                  "Разблокирует Chromium Devtools и dev панель в правом нижнем углу",
                 onChange: onDevtoolsToggle,
                 isChecked: window.nativeSettings.get("enableDevTools"),
               }),
@@ -619,9 +739,19 @@
             (0, n.jsx)("li", {
               className: H().item,
               children: (0, n.jsx)(P, {
-                title: "Авто обновления",
+                title: "Обновлять автоматически",
+                description:
+                  "Управляет авто обновлениями как программы, так и модификации",
                 onChange: onAutoUpdatesToggle,
                 isChecked: window.nativeSettings.get("enableAutoUpdates"),
+              }),
+            }),
+            (0, n.jsx)("li", {
+              className: H().item,
+              children: (0, n.jsx)(I, {
+                title: "Остальные настройки",
+                description: "Откроется config.json",
+                onClick: onOpenMoreSettings,
               }),
             }),
           ],
